@@ -1,12 +1,11 @@
 class Product(val name: String, val price: Double, val quantity: Int)
 
 class CustomOrder private constructor(
-    val customerName: String,
-    val products: List<Product>,
-    val total: Double,
-    val deliveryAddress: String
+        val customerName: String,
+        val products: List<Product>,
+        val total: Double,
+        val deliveryAddress: String
 ) {
-    /** Classe interna para "linkar" o Bulder com a classe CustomOrder **/
     class Builder {
         private var customerName: String = ""
         private var products: MutableList<Product> = mutableListOf()
@@ -17,8 +16,12 @@ class CustomOrder private constructor(
         fun setDeliveryAddress(address: String) = apply { deliveryAddress = address }
 
         fun build(): CustomOrder {
-            TODO("Implemente a lógica para calcular o Total do Pedido (a partir dos dados de Produtos).")
-            TODO("Instancie corretamente um CustomOrder, consolidando o Builder!")
+            val total = calculateTotal(products)
+            return CustomOrder(customerName, products, total, deliveryAddress)
+        }
+
+        private fun calculateTotal(products: List<Product>): Double {
+            return products.sumOf { it.price * it.quantity }
         }
     }
 
